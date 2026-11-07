@@ -1,0 +1,390 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>나의 독서 DNA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: one centered quiz card on a warm paper ground; lavender marks the chosen path. */
+:root {
+  --bg: #fbf7f2;
+  --card: #fff8f1;
+  --card-line: #f0e2d2;
+  --surface: #ffffff;
+  --line: #ecdfe8;
+  --ink: #3f3346;
+  --ink-soft: #7d6f84;
+  --ink-faint: #a898ad;
+  --lav: #b99ad3;
+  --lav-soft: #f3e6f7;
+  --lav-pick: #eddff5;
+  --lav-line: #b48fd0;
+  --dot: #dacfdc;
+  --track: #ecdfe8;
+  --btn: #1d1b20;
+  --btn-ink: #ffffff;
+  --icon-bg: #f7f0f9;
+  --focus: #4a8cf0;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-hand: "Gowun Dodum", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18151b; --card: #221e26; --card-line: #3a3240; --surface: #2a2530; --line: #3d3544;
+    --ink: #f1e9f5; --ink-soft: #c2b4ca; --ink-faint: #8f8198; --lav: #b994d8; --lav-soft: #332a3d;
+    --lav-pick: #3b2f48; --lav-line: #a57fc6; --dot: #5a4f60; --track: #3d3544; --btn: #efe6f4;
+    --btn-ink: #1d1b20; --icon-bg: #342d3b; --focus: #7aaaf5; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #18151b; --card: #221e26; --card-line: #3a3240; --surface: #2a2530; --line: #3d3544;
+  --ink: #f1e9f5; --ink-soft: #c2b4ca; --ink-faint: #8f8198; --lav: #b994d8; --lav-soft: #332a3d;
+  --lav-pick: #3b2f48; --lav-line: #a57fc6; --dot: #5a4f60; --track: #3d3544; --btn: #efe6f4;
+  --btn-ink: #1d1b20; --icon-bg: #342d3b; --focus: #7aaaf5; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.card {
+  background: var(--card); border: 1px solid var(--card-line); border-radius: 22px;
+  padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 12px;
+}
+.note { font-size: 12.5px; color: var(--ink-faint); line-height: 1.6; padding: 0 4px; }
+button { font-family: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* top bar */
+.top { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 700; color: var(--ink-soft); letter-spacing: .02em; }
+.top .count { font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.bars { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.bars span { height: 6px; border-radius: 4px; background: var(--track); transition: background .25s; }
+.bars span.on { background: var(--lav); }
+
+/* question head */
+.qhead { background: var(--lav-soft); border-radius: 18px; padding: 22px 16px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.qhead .emo { font-size: 36px; line-height: 1.1; }
+.qhead .qn { font-size: 12px; letter-spacing: .06em; color: var(--lav-line); margin-top: 6px; }
+.qhead h1 { font-size: clamp(19px, 4.4vw, 23px); margin: 0; font-weight: 800; text-wrap: balance; }
+
+/* options */
+.opts { display: flex; flex-direction: column; gap: 9px; }
+.opt {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 11px 14px 11px 12px; font-size: 14.5px; transition: background .15s, border-color .15s, transform .1s;
+}
+.opt:hover { border-color: var(--lav); }
+.opt:active { transform: scale(.995); }
+.opt .ico { width: 42px; height: 42px; border-radius: 12px; background: var(--icon-bg); display: grid; place-items: center; font-size: 22px; flex: none; }
+.opt .txt { flex: 1; min-width: 0; }
+.opt .mark { width: 16px; height: 16px; border-radius: 50%; background: var(--dot); flex: none; display: grid; place-items: center; }
+.opt[aria-checked="true"] { background: var(--lav-pick); border-color: var(--lav-line); font-weight: 700; }
+.opt[aria-checked="true"] .ico { background: var(--surface); }
+.opt[aria-checked="true"] .mark { background: transparent; border: 1.5px solid var(--lav-line); }
+.opt[aria-checked="true"] .mark::after { content: ""; width: 6px; height: 3px; border-left: 1.5px solid var(--lav-line); border-bottom: 1.5px solid var(--lav-line); transform: rotate(-45deg) translate(1px, -1px); }
+
+/* nav */
+.nav { display: flex; justify-content: space-between; align-items: center; padding-top: 2px; }
+.ghost { background: transparent; border: 1px solid var(--card-line); border-radius: 999px; padding: 8px 16px; font-size: 13.5px; color: var(--ink-soft); }
+.ghost:disabled { opacity: .45; cursor: default; }
+.primary { background: var(--btn); color: var(--btn-ink); border: 0; border-radius: 999px; padding: 10px 18px; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+.primary:disabled { opacity: .35; cursor: default; }
+.primary.wide { width: 100%; justify-content: center; padding: 13px 18px; font-size: 14.5px; }
+
+/* intro */
+.intro { text-align: center; padding: 26px 16px 28px; }
+.intro .books { font-size: 52px; }
+.intro h1 { font-size: clamp(24px, 5.5vw, 30px); margin: 6px 0 6px; font-weight: 800; }
+.intro p { color: var(--ink-soft); margin: 0; line-height: 1.7; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.field input, .field textarea {
+  font: inherit; font-size: 15px; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; width: 100%;
+}
+.field textarea { resize: none; min-height: 70px; font-family: var(--font-hand); font-size: 17px; }
+.field .hint { font-size: 12px; color: var(--ink-faint); }
+
+/* result */
+.hero { border-radius: 18px; padding: 18px 16px 22px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero .who { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.hero .badge { width: 96px; height: 96px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 46px; margin: 6px 0; }
+.hero .lead { font-size: 13px; color: var(--ink-soft); }
+.hero h2 { font-size: clamp(26px, 6vw, 32px); margin: 0; font-weight: 800; }
+.hero .desc { font-size: 14px; color: var(--ink-soft); margin: 0; text-wrap: balance; }
+.hero .pill { margin-top: 6px; background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 12.5px; color: var(--ink-soft); }
+.scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px 14px; padding: 2px 4px; }
+.score { display: grid; grid-template-columns: 1fr auto; gap: 3px; font-size: 12.5px; color: var(--ink-soft); }
+.score .bar { grid-column: 1 / -1; height: 5px; border-radius: 4px; background: var(--track); overflow: hidden; }
+.score .bar i { display: block; height: 100%; background: var(--lav); border-radius: 4px; }
+.score b { font-variant-numeric: tabular-nums; font-weight: 700; }
+.sec h3 { margin: 6px 0 2px; font-size: 21px; font-weight: 800; }
+.sec .sub { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 10px; }
+.phrase { padding: 13px 14px; min-height: 48px; }
+.phrase .mark { order: -1; }
+.textlink { background: none; border: 0; color: var(--ink-faint); font-size: 13.5px; padding: 8px; align-self: center; }
+.textlink:hover { color: var(--ink-soft); }
+
+/* bookmark */
+.bm-stage { display: flex; justify-content: center; padding: 10px 0 4px; }
+.bookmark {
+  position: relative; width: 210px; max-width: 100%; aspect-ratio: 1 / 2.6; border-radius: 16px 16px 6px 6px;
+  padding: 44px 18px 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+  box-shadow: 0 10px 28px rgba(63, 51, 70, .14); color: #3f3346;
+}
+.bookmark::before { content: ""; position: absolute; top: 16px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--card); box-shadow: inset 0 1px 3px rgba(0,0,0,.18); }
+.bookmark .tassel { position: absolute; top: -34px; left: 50%; width: 2px; height: 50px; background: #b48fd0; transform: translateX(-1px); }
+.bookmark .tassel::after { content: ""; position: absolute; top: -10px; left: -5px; width: 12px; height: 18px; border-radius: 6px 6px 3px 3px; background: #b48fd0; }
+.bookmark .bm-emo { width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,.75); display: grid; place-items: center; font-size: 38px; }
+.bookmark .bm-type { font-size: 12px; font-weight: 700; color: #6f6077; letter-spacing: .02em; }
+.bookmark .bm-quote { font-family: var(--font-hand); font-size: 21px; line-height: 1.55; margin: auto 0; word-break: keep-all; overflow-wrap: anywhere; }
+.bookmark .bm-name { font-size: 12.5px; color: #6f6077; border-top: 1px dashed rgba(63,51,70,.25); padding-top: 10px; width: 100%; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+
+/* review */
+.review { display: flex; flex-direction: column; gap: 8px; }
+.rv { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 11px 14px; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center; }
+.rv .n { grid-row: span 2; width: 28px; height: 28px; border-radius: 50%; background: var(--lav-soft); color: var(--lav-line); display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+.rv .q { font-size: 12.5px; color: var(--ink-soft); }
+.rv .a { font-size: 14.5px; font-weight: 700; min-width: 0; }
+.rv .t { font-weight: 400; font-size: 12px; color: var(--lav-line); margin-left: 6px; white-space: nowrap; }
+
+.fade { animation: fade .28s ease both; }
+@keyframes fade { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fade { animation: none; } * { transition: none !important; } }
+@media (max-width: 420px) { .opt .ico { width: 38px; height: 38px; font-size: 20px; } }
+</style>
+
+<div class="wrap">
+  <main id="app" class="card" aria-live="polite"></main>
+  <p class="note" id="note">이 테스트는 재미있는 독서 취향 탐색 활동이야. 전문적인 심리검사는 아니며, 동점일 때는 앞 문항에서 고른 유형을 우선해서 결과를 결정해.</p>
+</div>
+
+<script>
+const TYPES = {
+  dream:   { name: "반짝반짝 상상가", emo: "🪄", color: "#efe4fb", desc: "마법 같은 세계를 마음껏 그려 내는 독자!", strength: "풍부한 상상력과 창의력",
+             phrases: ["책장 사이로 별빛이 새어 나와.", "상상은 내 마음의 작은 창문.", "오늘 밤, 이야기 속에서 만나."] },
+  detect:  { name: "두근두근 탐정가", emo: "🔍", color: "#e3eefb", desc: "숨은 단서를 찾아 수수께끼를 푸는 독자!", strength: "날카로운 관찰력과 추리력",
+             phrases: ["모든 문장엔 비밀이 숨 쉬어.", "궁금함이 나를 앞으로 이끌어.", "마지막 페이지에 답이 기다려."] },
+  warm:    { name: "다정다감 공감가", emo: "💞", color: "#fde6ec", desc: "등장인물의 마음을 함께 느끼는 독자!", strength: "따뜻한 공감력과 배려심",
+             phrases: ["네 마음이 내게도 들려.", "다정한 문장이 나를 안아 줘.", "책 속 친구와 손을 잡았어."] },
+  brave:   { name: "씩씩한 모험가", emo: "🧭", color: "#fdeedb", desc: "새로운 길로 용감하게 나아가는 독자!", strength: "용기와 도전 정신",
+             phrases: ["바람이 부는 쪽으로 한 장 더.", "작은 용기가 큰 길을 열어.", "넘기는 순간, 모험이 시작돼."] },
+  know:    { name: "척척 지식 수집가", emo: "🔬", color: "#e2f3ec", desc: "새로운 사실을 모아 차곡차곡 정리하는 독자!", strength: "탐구심과 꼼꼼한 정리력",
+             phrases: ["알게 된 하나가 세상을 넓혀.", "궁금함은 반짝이는 씨앗이야.", "배움은 마음에 켜지는 불빛."] },
+  fun:     { name: "깔깔 이야기꾼", emo: "😄", color: "#fff3cf", desc: "재미있는 장면을 찾아 신나게 나누는 독자!", strength: "유머 감각과 표현력",
+             phrases: ["웃음은 책이 주는 선물이야.", "한 장마다 햇살 같은 웃음.", "즐거운 이야기는 나눌수록 커져."] },
+  calm:    { name: "느긋느긋 사색가", emo: "🍵", color: "#e3f2ee", desc: "나만의 속도로 천천히 읽으며 생각을 키우는 독자!", strength: "깊은 사고력과 차분함",
+             phrases: ["천천히 읽어도, 마음은 자라.", "조용한 문장에 오래 머물래.", "생각이 꽃처럼 피어나는 시간."] },
+  rainbow: { name: "알록달록 무지개 독서가", emo: "🌈", color: "#f6e8f3", desc: "여러 장르를 넘나들며 세상을 넓히는 독자!", strength: "열린 마음과 폭넓은 관심",
+             phrases: ["책마다 다른 하늘이 있어.", "여러 빛깔로 세상을 읽어.", "처음 만나는 이야기에게, 안녕."] },
+};
+
+const QUESTIONS = [
+  { emo: "📚", q: "도서관에 가면 가장 먼저 고르는 책은?", o: [["🪄","마법과 상상의 이야기","dream"],["🔍","비밀과 수수께끼","detect"],["💞","따뜻한 친구 이야기","warm"],["🧭","신나는 모험 이야기","brave"]] },
+  { emo: "✨", q: "책에서 가장 좋아하는 순간은?", o: [["💡","새로운 사실을 알 때","know"],["😄","웃음이 터질 때","fun"],["🌿","깊이 생각하게 될 때","calm"],["🌈","여러 이야기를 만날 때","rainbow"]] },
+  { emo: "🌈", q: "책 속에 들어간다면 어디로 갈래?", o: [["🏰","상상의 나라로!","dream"],["🕵️","미스터리를 풀러!","detect"],["🤝","친구를 도우러!","warm"],["🚀","모험을 떠나러!","brave"]] },
+  { emo: "📝", q: "책을 읽고 가장 하고 싶은 것은?", o: [["📝","알게 된 사실 정리하기","know"],["🎉","재미있는 장면 이야기하기","fun"],["🍵","조용히 생각하기","calm"],["📚","다른 장르의 책 찾기","rainbow"]] },
+  { emo: "🦊", q: "내가 가장 좋아하는 주인공은?", o: [["☁️","상상력이 풍부한 주인공","dream"],["🔎","호기심 많은 주인공","detect"],["💗","다정한 주인공","warm"],["🦁","용감한 주인공","brave"]] },
+  { emo: "💌", q: "나에게 책이란?", o: [["💎","지식의 보물창고","know"],["🎠","웃음이 가득한 놀이터","fun"],["🌷","마음을 쉬게 하는 공간","calm"],["🚪","다양한 세상으로 가는 문","rainbow"]] },
+  { emo: "🔖", q: "책을 고를 때 가장 중요한 것은?", o: [["✨","신기한 세계관","dream"],["🔭","새로운 발견","detect"],["🫶","공감되는 감정","warm"],["⚡","빠르고 흥미진진한 전개","brave"]] },
+  { emo: "🌷", q: "나의 독서 습관은?", o: [["🔬","궁금한 것을 찾아 읽기","know"],["🤣","재미있는 부분을 반복해 읽기","fun"],["🌙","문장을 곱씹으며 읽기","calm"],["📖","여러 장르를 번갈아 읽기","rainbow"]] },
+];
+
+const S = { view: "intro", name: "", step: 0, answers: Array(8).fill(null), phrase: 0, custom: "" };
+const app = document.getElementById("app");
+const note = document.getElementById("note");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const arrow = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const sparkle = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20 15 9M14 4v3M18.5 5.5l-2 2M20 10h-3M9 4v2M8 5h2M19 15v2M18 16h2"/></svg>';
+
+function scores() {
+  const sc = Object.fromEntries(Object.keys(TYPES).map(k => [k, 0]));
+  S.answers.forEach((a, i) => { if (a !== null) sc[QUESTIONS[i].o[a][2]]++; });
+  return sc;
+}
+function resultType() {
+  const sc = scores();
+  const max = Math.max(...Object.values(sc));
+  // tie-break: the tied type picked in the earliest question wins
+  for (let i = 0; i < 8; i++) {
+    const a = S.answers[i]; if (a === null) continue;
+    const t = QUESTIONS[i].o[a][2];
+    if (sc[t] === max) return t;
+  }
+  return "calm";
+}
+function displayName() { return S.name.trim() || "나"; }
+function chosenPhrase(t) { return S.phrase === 3 ? (S.custom.trim() || "나만의 문구를 적어 봐!") : TYPES[t].phrases[S.phrase]; }
+
+function render() {
+  note.hidden = S.view === "bookmark";
+  ({ intro, quiz, result, bookmark, review })[S.view]();
+}
+
+function intro() {
+  app.innerHTML = `
+    <div class="top"><span>MY READING DNA</span><span class="count">8 문항</span></div>
+    <div class="qhead intro fade">
+      <div class="books">📚</div>
+      <h1>나의 독서 DNA 찾기</h1>
+      <p>8가지 질문에 답하면 나와 가장 닮은 독서 유형을 알려 줄게.<br>마지막에는 나만의 책갈피도 만들 수 있어!</p>
+    </div>
+    <div class="field">
+      <label for="nm">내 이름이나 별명</label>
+      <input id="nm" maxlength="12" placeholder="예: 딱따구리" value="${esc(S.name)}" autocomplete="off">
+      <span class="hint">결과와 책갈피에 이 이름이 들어가. 비워 두면 '나'로 표시돼.</span>
+    </div>
+    <button class="primary wide" id="go">테스트 시작하기 ${arrow}</button>`;
+  const nm = document.getElementById("nm");
+  nm.addEventListener("input", e => S.name = e.target.value);
+  nm.addEventListener("keydown", e => { if (e.key === "Enter") start(); });
+  document.getElementById("go").onclick = start;
+  function start() { S.view = "quiz"; S.step = 0; render(); }
+}
+
+function quiz() {
+  const i = S.step, Q = QUESTIONS[i], a = S.answers[i];
+  app.innerHTML = `
+    <div class="top"><span>MY READING DNA</span><span class="count">${i + 1} / 8</span></div>
+    <div class="bars" aria-hidden="true">${QUESTIONS.map((_, k) => `<span class="${k <= i ? "on" : ""}"></span>`).join("")}</div>
+    <div class="qhead fade" key="${i}">
+      <div class="emo" aria-hidden="true">${Q.emo}</div>
+      <div class="qn">QUESTION ${i + 1}</div>
+      <h1 id="qt">${Q.q}</h1>
+    </div>
+    <div class="opts" role="radiogroup" aria-labelledby="qt">
+      ${Q.o.map((o, k) => `
+        <button class="opt" role="radio" id="opt-${i}-${k}" aria-checked="${a === k}" data-k="${k}">
+          <span class="ico" aria-hidden="true">${o[0]}</span><span class="txt">${o[1]}</span><span class="mark" aria-hidden="true"></span>
+        </button>`).join("")}
+    </div>
+    <div class="nav">
+      <button class="ghost" id="prev">이전</button>
+      <button class="primary" id="next" ${a === null ? "disabled" : ""}>${i === 7 ? "결과 확인하기" : "다음"} ${arrow}</button>
+    </div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => pick(+b.dataset.k));
+  document.getElementById("prev").onclick = () => { if (i === 0) { S.view = "intro"; } else S.step--; render(); };
+  document.getElementById("next").onclick = next;
+}
+function pick(k) {
+  S.answers[S.step] = k;
+  app.querySelectorAll(".opt").forEach(b => b.setAttribute("aria-checked", +b.dataset.k === k));
+  document.getElementById("next").disabled = false;
+  document.getElementById("next").focus();
+}
+function next() {
+  if (S.answers[S.step] === null) return;
+  if (S.step < 7) { S.step++; render(); }
+  else { S.view = "result"; S.phrase = 0; render(); window.scrollTo({ top: 0 }); }
+}
+document.addEventListener("keydown", e => {
+  if (S.view !== "quiz" || e.target.tagName === "INPUT") return;
+  if (["1","2","3","4"].includes(e.key)) pick(+e.key - 1);
+});
+
+function result() {
+  const t = resultType(), T = TYPES[t], sc = scores();
+  const ranked = Object.entries(sc).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+  app.innerHTML = `
+    <div class="hero fade" style="background:${T.color}; color:#3f3346">
+      <div class="who" style="color:#6f6077">${esc(displayName())}의 독서 DNA</div>
+      <div class="badge" style="background:#fff" aria-hidden="true">${T.emo}</div>
+      <div class="lead" style="color:#6f6077">당신과 가장 닮은 독서 유형은</div>
+      <h2>${T.name}</h2>
+      <p class="desc" style="color:#6f6077">${T.desc}</p>
+      <div class="pill" style="background:#fff; color:#6f6077">나의 반짝이는 강점 · ${T.strength}</div>
+    </div>
+    <div class="scores" aria-label="유형별 점수">
+      ${ranked.map(([k, v]) => `<div class="score"><span>${TYPES[k].emo} ${TYPES[k].name}</span><b>${v}</b><span class="bar"><i style="width:${v / 8 * 100}%"></i></span></div>`).join("")}
+    </div>
+    <div class="sec">
+      <h3>나에게 어울리는 책갈피 문구</h3>
+      <p class="sub">마음에 드는 문구를 선택하거나 직접 적어 봐!</p>
+      <div class="opts" role="radiogroup" aria-label="책갈피 문구">
+        ${T.phrases.map((p, k) => `<button class="opt phrase" role="radio" id="ph-${k}" aria-checked="${S.phrase === k}" data-k="${k}"><span class="txt">${p}</span><span class="mark" aria-hidden="true"></span></button>`).join("")}
+        <button class="opt phrase" role="radio" id="ph-3" aria-checked="${S.phrase === 3}" data-k="3"><span class="txt"><b>내가 원하는 문구 직접 쓰기</b> ✏️</span><span class="mark" aria-hidden="true"></span></button>
+        <div class="field" id="customBox" ${S.phrase === 3 ? "" : "hidden"}>
+          <label for="custom">나만의 문구 (30자까지)</label>
+          <textarea id="custom" maxlength="30" placeholder="예: 책 읽는 시간이 제일 좋아!">${esc(S.custom)}</textarea>
+        </div>
+      </div>
+    </div>
+    <button class="primary wide" id="make">나만의 책갈피 완성하기 ${sparkle}</button>
+    <button class="textlink" id="rv">테스트 답변 다시 보기</button>`;
+  app.querySelectorAll(".phrase").forEach(b => b.onclick = () => {
+    S.phrase = +b.dataset.k;
+    app.querySelectorAll(".phrase").forEach(x => x.setAttribute("aria-checked", +x.dataset.k === S.phrase));
+    const box = document.getElementById("customBox");
+    box.hidden = S.phrase !== 3;
+    if (S.phrase === 3) document.getElementById("custom").focus();
+  });
+  document.getElementById("custom").addEventListener("input", e => S.custom = e.target.value);
+  document.getElementById("make").onclick = () => { S.view = "bookmark"; render(); window.scrollTo({ top: 0 }); };
+  document.getElementById("rv").onclick = () => { S.view = "review"; render(); };
+}
+
+function bookmark() {
+  const t = resultType(), T = TYPES[t];
+  app.innerHTML = `
+    <div class="top"><span>MY READING DNA</span><span class="count">완성!</span></div>
+    <div class="sec" style="text-align:center">
+      <h3>${esc(displayName())}의 책갈피가 완성됐어 🎉</h3>
+      <p class="sub">화면을 캡처해서 저장하거나, 종이에 그대로 따라 그려 봐.</p>
+    </div>
+    <div class="bm-stage fade">
+      <div class="bookmark" style="background:linear-gradient(180deg, ${T.color}, #fffaf4)">
+        <span class="tassel" aria-hidden="true"></span>
+        <div class="bm-emo" aria-hidden="true">${T.emo}</div>
+        <div class="bm-type">${T.name}</div>
+        <div class="bm-quote">${esc(chosenPhrase(t))}</div>
+        <div class="bm-name">${esc(displayName())}의 독서 DNA</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="ghost" id="back">문구 바꾸기</button>
+      <button class="ghost" id="rv">답변 다시 보기</button>
+      <button class="primary" id="again">처음부터 다시 하기</button>
+    </div>`;
+  document.getElementById("back").onclick = () => { S.view = "result"; render(); };
+  document.getElementById("rv").onclick = () => { S.view = "review"; render(); };
+  document.getElementById("again").onclick = reset;
+}
+
+function review() {
+  const t = resultType();
+  app.innerHTML = `
+    <div class="top"><span>MY READING DNA</span><span class="count">답변 보기</span></div>
+    <div class="sec">
+      <h3>${esc(displayName())}의 답변</h3>
+      <p class="sub">결과: ${TYPES[t].emo} ${TYPES[t].name} · 문항을 누르면 답을 바꿀 수 있어.</p>
+    </div>
+    <div class="review">
+      ${QUESTIONS.map((Q, i) => { const o = Q.o[S.answers[i]]; return `
+        <button class="rv" data-i="${i}" style="text-align:left; font:inherit">
+          <span class="n">${i + 1}</span><span class="q">${Q.q}</span>
+          <span class="a">${o[0]} ${o[1]}<span class="t">${TYPES[o[2]].name}</span></span>
+        </button>`; }).join("")}
+    </div>
+    <div class="nav">
+      <button class="ghost" id="back">결과로 돌아가기</button>
+      <button class="primary" id="again">처음부터 다시 하기</button>
+    </div>`;
+  app.querySelectorAll(".rv").forEach(b => b.onclick = () => { S.step = +b.dataset.i; S.view = "quiz"; render(); });
+  document.getElementById("back").onclick = () => { S.view = "result"; render(); };
+  document.getElementById("again").onclick = reset;
+}
+
+function reset() { Object.assign(S, { view: "intro", step: 0, answers: Array(8).fill(null), phrase: 0, custom: "" }); render(); window.scrollTo({ top: 0 }); }
+
+window.claude?.hot?.snapshot?.(() => S);
+const boot = d => { if (d && d.view) Object.assign(S, d); render(); };
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+</script>
+
+</body></html>
